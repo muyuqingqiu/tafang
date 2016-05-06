@@ -1,0 +1,367 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+/*非常抱歉，各种bug快要把我给闹心死了，已经无力去整理这些css了，米亚乃了各位，么么哒哈
+*/*{ margin:0; padding:0;}
+li{ list-style:none;}
+#wBoss{ width:60px; height:60px; border-radius:5px; font-size:20px; text-align:center; color:white; line-height:60px; font-family:"宋体"; font-weight:bold; position:absolute; left:100px; top:250px; z-index:20;}
+#wStart{ position:absolute; width:500px; height:500px; border-radius:50px; background:#CF0; left:50%; top:50%; margin:-270px 0 0 -250px; z-index:35; font-size:20px; text-align:center; color:white; z-index:50;}
+#wStart h1{ font-size:100px; text-align:center; color:white; padding-top:50px;}
+#wStart p{ font-size:30px; text-align:center; color:#00F; font-weight:bold; font-family:"宋体"; padding:50px 0 30px 0;}
+
+#Mmain{ position:relative; width:800px; height:600px; margin:20px auto; background:url(img/airbg%20.jpg);overflow:hidden;}
+#Mair{ height:500px; width:100%; position:relative;}
+#Mfloor{ height:100px; background:url(img/floorbg.png) repeat-x; width:1600px; position:relative;}
+#Mair ul{ width:80px; position:absolute;}
+#Mair .bar li{ width:80px; height:50px; background:url(img/barbg.png) repeat-y;}
+#Mair ul .lastbar{ background:url(img/lastbar.png); width:100px; position:relative;right:10px;}
+#Mair ul .firstbar{ background:url(img/firstbar.png); width:100px; position:relative;right:10px;}
+#Mair .barTop{ left:1000px; top;0;}
+#Mair .barBottom{ left:1000px; bottom:0;}
+#goDead1{ position:absolute; left:0; top:0; z-index:50; border-radius:50px; background:red;}
+#goDead2{ background:#999; position:absolute; left:0; top:0; z-index:40; opacity:0.5;}
+#Mair .shuzizy{ left:800px;top:200px;}
+#Mair .shuzizy li{width:60px; height:60px; text-align:center; line-height:60px;border-radius:5px;font-size:20px; font-weight:bold; font-family:"宋体"; color:#fff;  position:absolute;}
+#Mair .shuzizy li:nth-of-type(1){ top:-70px;}
+#Mair .shuzizy li:nth-of-type(2){ top:53px;}
+#Mair .shuzizy li:nth-of-type(3){ top:165px;}
+div{ height:600px;}
+#mEnd{ width:600px; height:400px; position:absolute; left:100px; top:100px; background:#CF0; z-index:50; border-radius:30px; display:none;}
+#mEnd h1{ font-size:80px; text-align:center; color:white; padding-top:50px;}
+#mEnd input{ width:250px; height:100px; font-size:40px; border-radius:30px; border:2px pink solid; background:#CF0; margin:100px 175px 0 175px; color:#fff}
+#mEnd{ width:600px; height:400px; position:absolute; left:100px; top:100px; background:#FF0; z-index:50; border-radius:30px; display:none;}
+#mEnd h1{ font-size:80px; text-align:center; color:white; padding-top:50px;}
+#mEnd input{ width:250px; height:100px; font-size:40px; border-radius:30px; border:2px pink solid; background:#CF0; margin:0 175px 0 175px; color:#fff}
+#mEnd .Socre{ height:50px; margin:20px auto; width:500px; color:#F00; font-weight:bold; background:#000; border-radius:10px; line-height:50px; font-size:25px;}
+#mEnd .Socre P{ height:50px; width:500px; text-align:center;} 
+<!--计分板start-->
+#wCount{}
+#wCount .wScore1{ position:fixed; left:770px; top:50px; z-index:30; width:109px;height:53px; background:#b9ab9e; border-radius:5px;}
+#wCount .wScore2{ position:fixed; left:900px; top:50px; z-index:30; width:109px;height:53px; background:#b9ab9e; border-radius:5px;}
+#wCount .wScore1 p,#wCount .wScore2 p{ color:#3FC; font-size:12px; font-weight:bold; text-align:center;}
+#wCount .wScore1 span,#wCount .wScore2 span{ display:block; color:#FFF; font-size:24px; font-weight:bold; text-align:center;}
+</style>
+<script src="jquery-1.12.1.min.js"></script>
+<script src="jquery.cookie.js"></script>
+</head>
+
+<body>
+
+<div id="Mmain">
+	<div id="wStart"><h1>flappy 2048</h1><p>点击开始游戏</p>没有伞的孩子必须努力奔跑</div>
+	<div id="mEnd">
+        <h1>Game Over</h1>
+        <div class="Socre">
+                <p>
+                    SCORE: <span>0</span>
+                    BEST: <span>0</span>
+               </p>
+        </div>
+        <input type="button" value="Play again～">
+    </div>
+
+    <div id="Mair">
+    	<div id="wBoss">2</div>
+        <ul class="shuzizy">
+        </ul>
+        <ul class="barTop bar">
+        </ul>
+        <ul class="barBottom bar">
+        </ul> 
+    </div>
+    <div id="Mfloor">
+    </div>
+    <div id="wCount"> 
+        <div class="wScore1"><p>SCORE</p><span>0</span></div>
+        <div class="wScore2"><p>BEST</p><span>0</span></div>
+    </div>
+</div>
+<script>
+var $wCount = $('#wCount');
+var $wMain = $('#Mair');
+var $wBoss = $('#wBoss');
+var $Mul = $('.bar');
+var timer = null;
+var $wTop = $wBoss.position().top;
+var $wHeight = $wMain.height() - $wBoss.height();
+var $floor = $('#Mfloor');
+var iScore = 2;
+var iScore2 = 0;
+var arr = [];
+var $mEnd = $('#mEnd');
+var $input = $('#mEnd input');
+var $wScore = $('.Socre').find('span').eq(0);
+var $wBest = $('.Socre').find('span').eq(1);
+
+/*var $audio = $('audio');
+$audio.attr('src','audio/1.mp3');
+$('body').append($audio);*/
+var audio = document.createElement('audio');
+audio.src = 'audio/2.mp3';
+document.body.appendChild(audio);
+audio.autoplay = 'autoplay';
+//开始页面
+$('#wStart').on('click',function(){
+	start();
+	$('#wStart').hide();
+});
+function start(){
+	//Boss块的运动
+	$wBoss.stop().animate({top:$wMain.height() - $wBoss.height()},2000,'linear');
+	createBar();   //点击document之后开始调用；
+	createBar2();
+	bgRun();
+	//鼠标按键事件 + 键盘空格事件
+	$(document).on('keydown.hei',function(ev){
+		if(ev.which == 32){
+			$wBoss.trigger('jump');
+		}
+		return false;
+	});
+	$(document).on('mousedown.hei',function(ev){
+		if(ev.which == 1){
+			$wBoss.trigger('jump')
+		}
+		return false;
+	});
+}
+/*实时监测碰撞*/
+timer = setInterval(function(){
+	Color($wBoss);
+	if($wBoss.html() == 2){
+		arr = [2,4,8];
+	}
+	else if($wBoss.html() >= 16 && $wBoss.html() < 256){
+		arr = [16,32,64,128,256];
+	}
+	else if($wBoss.html() >= 256 && $wBoss.html() < 2048 ){
+		arr = [256,512,1024,2048];
+	}
+	else if($wBoss.html() >= 2048){
+		arr = [2048,4096,8192];
+	}
+	if( $wBoss.position().top == $wMain.height() - $wBoss.height()){
+		goDead();
+	}
+	$Mul.each(function(i,elem){
+		if(pz1($wBoss,$(elem))){
+			goDead();
+		}
+	});
+	$('.shuzizy').find('li').each(function(i,elem){
+		if( pz2($wBoss,$(elem))){
+			
+			if($(elem).html() == $wBoss.html()){
+				iScore = iScore*2;
+				$(this).hide();
+				$wBoss.html(iScore);
+				iScore2 = $(elem).html();
+				if($('#wCount span').eq(0).html() >= $('#wCount span').eq(1).html()){
+					$('#wCount span').eq(1).html(iScore2);
+				}
+				$('#wCount span').eq(0).html(iScore2);
+				
+				if($wBoss.width()<=40){
+					$wBoss.stop().animate({'width':40,'height':40,'lineHeight':40 + 'px',},20,'linear',function(){
+		$wBoss.stop().animate({top:$wMain.height() - $wBoss.height()},2000,'linear');		
+});
+				}
+				else{
+					$wBoss.stop().animate({'width':$wBoss.width() - 3,'height':$wBoss.height() - 3,'lineHeight':($wBoss.height() - 3) + 'px',},20,'linear',function(){
+	console.log($wBoss.width());
+		$wBoss.stop().animate({top:$wMain.height() - $wBoss.height()},2000,'linear');		
+	});
+				}
+			}
+			else{
+				if($wBoss.width() >= 150){
+					$wBoss.stop().animate({'width':150,'height':150,'lineHeight': 150 + 'px',},20,'linear',function(){
+		
+		$wBoss.stop().animate({top:$wMain.height() - $wBoss.height()},2000,'linear');		
+});
+				}
+				else{
+					$wBoss.stop().animate({'width':$wBoss.width() + 5,'height':$wBoss.height() + 5,'lineHeight':($wBoss.height() +5) + 'px',},20,'linear',function(){
+		
+		$wBoss.stop().animate({top:$wMain.height() - $wBoss.height()},2000,'linear');		
+});
+				}
+			}
+		//console.log($wBoss.width());
+		}
+	});
+},200);
+/*鼠标按键事件 + 键盘空格事件的自定义事件*/
+$wBoss.on('jump',function(){
+	$wBoss.stop().animate({top:$(this).position().top - 60},200,'linear',function(){
+		
+		$wBoss.stop().animate({top:$wMain.height() - $wBoss.height()},2000,'linear');		
+	});
+
+});
+//死亡效果
+function goDead(){
+	//console.log(1);
+	clearInterval(timer);
+	$(document).off('.hei');
+	if( $wTop < $wMain.height() - $wBoss.height()){
+		$wBoss.stop().animate({top:$wMain.height() - $wBoss.height()},400,'linear')
+	}
+	$('ul').stop();
+	$floor.stop();
+	var $wMask = $('<div></div>');
+	$('body').append($wMask);
+	$wMask.attr('id','goDead1');
+	$wMask.css({'width':$(document).width(),'height':$(document).height()});
+	setTimeout(function(){
+		$wMask.remove();
+	},30);
+	var $wMaskBoss = $('<div></div>');
+	$wMaskBoss.attr('id','goDead2');
+	$('body').append($wMaskBoss);
+	$wMaskBoss.css({'width':$(window).width(),'height':$(window).height()});
+
+	setTimeout(function(){
+			$mEnd.show();
+	},10);
+	
+	$wScore.html($('#wCount span').eq(0).html());
+	$wBest.html($('#wCount span').eq(1).html());
+}
+//两个碰撞监测
+function pz1(obj1,obj2){
+	var $L1 = obj1.position().left;
+	var $R1 = obj1.position().left + obj1.width();
+	var $T1 = obj1.position().top;
+	var $B1 = obj1.position().top + obj1.height();
+	var $L2 = obj2.position().left;
+	var $R2 = obj2.position().left + obj2.width();
+	var $T2 = obj2.position().top ;
+	var $B2 = obj2.position().top  + obj2.height();
+	if( $R1 <= $L2 || $L1 >= $R2 || $B1 <= $T2 || $T1 >= $B2){
+	   return false;
+	}
+	else{
+	   return true;
+	}
+}
+function pz2(obj1,obj2){
+	var $L1 = obj1.position().left;
+	var $R1 = obj1.position().left + obj1.width();
+	var $T1 = obj1.position().top;
+	var $B1 = obj1.position().top + obj1.height();
+	
+	var $L2 = obj2.position().left + obj2.parent().position().left;
+	var $R2 = obj2.position().left + obj2.parent().position().left + obj2.width();
+	var $T2 = obj2.position().top + obj2.parent().position().top;
+	var $B2 = obj2.position().top + obj2.parent().position().top + obj2.height();
+	if( $R1 <= $L2 || $L1 >= $R2 || $B1 <= $T2 || $T1 >= $B2){
+	   return false;
+	}
+	else{
+	   return true;
+	}
+}
+//障碍物 + 数字小块的运动
+function run(){
+	$('.bar').stop().animate({left:-200},6000,'linear',function(){
+		//console.log($('li'))
+		$('.bar').find('li').remove();
+		$('.bar').css({left:1000})
+		createBar();
+	})
+};
+function run2(){
+	$('.shuzizy').stop().animate({left:-200},3000,'linear',function(){
+	    $('.shuzizy').find('li').remove();
+		$('.shuzizy').css({left:800})
+		createBar2();
+	})
+};
+function bgRun (){ 
+	$floor.stop().animate({right:800},4000,'linear',function(){
+		$(this).css('right',0)
+	    bgRun()
+	}
+)}
+$input.click(function(){
+	window.location.reload();
+})
+//障碍物 + 数字小块的创建
+function createBar(){
+	var topNum = Math.floor(Math.random()*6 + 1);
+    //console.log(topNum)
+    var bottomNum = 7-topNum;
+    //console.log(bottomNum)
+	var $li = null;
+	for(i=0;i<topNum;i++){
+		$li =$( '<li class="barTopLi"></li>')
+	    $li.appendTo($('ul[class="barTop bar"]'))
+	}
+	$('ul[class="barTop bar"]').find('li').last().attr('class','lastbar')
+	for(i=0;i<bottomNum;i++){
+		$li =$( '<li class="barBottomLi"></li>')
+	    $li.appendTo($('ul[class="barBottom bar"]'))
+	}
+	$('ul[class="barBottom bar"]').find('li').first().attr('class','firstbar')
+	run();
+}
+function createBar2(){
+		for(i=0;i<3;i++){
+		var suiji = Math.floor(Math.random()*(arr.length - 1));
+		$li =$( '<li class="li">'+arr[suiji]+'</li>')
+	    $li.appendTo($('ul[class=shuzizy]'));
+		$li.each(function(i,elem){
+			Color($(elem));
+		})
+	}
+	run2();
+}
+//小块里的颜色
+function Color(obj){
+	if(obj.html() == 2){
+		obj.css('background','#cd8946')
+	}
+	if(obj.html() == 4){
+		obj.css('background','#c60')
+	}
+	if(obj.html() == 8){
+		obj.css('background','#e69a69')
+	}
+	if(obj.html() == 16){
+		obj.css('background','#e27355')
+	}
+	if(obj.html() == 32){
+		obj.css('background','#e16657')
+	}
+	if(obj.html() == 64){
+		obj.css('background','#d94940')
+	}
+	if(obj.html() == 128){
+		obj.css('background','#f0cf68')
+	}
+	if(obj.html() == 256){
+		obj.css('background','#f0cb63')
+	}
+	if(obj.html() == 512){
+		obj.css('background','#e9c854')
+	}
+	if(obj.html() == 1024){
+		obj.css('background','#efc53b')
+	}
+	if(obj.html() == 2048){
+		obj.css('background','#0FF')
+	}
+	if(obj.html() == 4096){
+		obj.css('background','black')
+	}
+	if(obj.html() == 8192){
+		obj.css('background','red')
+	}
+}
+</script>
+</body>
+</html>

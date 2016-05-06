@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+*{
+	 padding:0;
+	 margin:0;
+}
+#L{
+	 width:50%;
+	 height:100%;
+	 float:left;
+	 background:red;
+	 position:relative;
+	 overflow:hidden;
+}
+
+#R{
+	 width:50%;
+	 height:100%;
+	 float:right;
+	 background:black;
+	 position:relative;
+	 overflow:hidden;
+}
+img{
+	 width:100%;
+	 position:absolute;
+}
+.play{
+	 position:absolute;
+	 width:300px;
+	 height:50px;
+	 font-size:30px;
+	 line-height:50px;
+	 color:red;
+	 top:400px;
+	 left:220px;
+	 display:none;
+	 z-index:20;
+	 background:rgba(0,0,0,0.7);
+	 text-align:center;
+	 font-weight:bolder;
+}
+a{
+	 display:block;
+	 position:absolute;
+	 top:0;
+	 height:0;
+	 width:100%;
+	 height:100%;
+	 z-index:100;
+}
+</style>
+<script src="jquery-1.12.1.min.js"></script>
+</head>
+
+<body>
+<div id="main">
+	<div id="L">
+    	<div class="play">PLAY NOW</div>
+    	<img src="img/3512393f9f03d3484fa8e8f8116d7f35.jpg">
+        <a href="终极2048/index.html" target="_blank"></a>
+    </div>
+	<div id="R">
+    	<div class="play">PLAY NOW</div>
+    	<img src="img/a26abad6a89d152e6aeb21a22c0b45c7.jpg">
+        <a href="终极挑战/index.html" target="_blank"></a>
+    </div>
+</div>
+<script>
+var $main = $('#main');
+
+$main.css({
+	'width' : $(window).width(),
+	'height' : $(window).height()	
+});
+$('#R').mouseenter(function(){
+	 $('.play').css('display','none');
+	 $('#R .play').css('display','block');
+});
+$('#L').mouseenter(function(){
+	 $('.play').css('display','none');
+	 $('#L .play').css('display','block');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+@charset "utf-8";
+/* CSS Document */
+*{
+	 padding:0;
+	 margin:0;
+}
+#main{
+	 margin:0 auto;
+	 position:relative;
+}
+.road{
+	 width:50px;
+	 height:50px;
+	 position:absolute;
+	 background:url(img/road.gif) no-repeat;
+	 background-size:contain;
+	 z-index:5;
+}
+.end{
+	 background:url(img/end.gif) no-repeat;
+	 background-size:contain;
+}
+.start{
+	 background:url(img/start.jpg) no-repeat;
+	 background-size:contain;
+}
+#leaves{
+	 position:absolute;
+	 width:100%;
+	 height:100%;
+	 top:0;
+	 left:0;
+	 background:rgba(0,0,0,0.4);
+	 display:none;
+	 z-index:50;
+}
+#leaves div{
+	 width:200px;
+	 height:40px;
+	 margin: 0 auto;
+	 margin-top:300px;
+	 background:#fff;
+	 font-size:30px;
+	 line-height:40px;
+	 color:#666;
+	 text-align:center;
+	 cursor:pointer;
+}
+#leaves #nextLeave{
+	 margin-top:20px;
+	 background:#fff;
+	 color:#666;
+}
+#gameOver{
+	 display:none;
+	 position:absolute;
+	 width:100%;
+	 height:100%;
+	 top:0;
+	 left:0;
+	 background:rgba(123,22,45,0.4);
+	 z-index:50;
+}
+#gameOver p{
+	 width:200px;
+	 height:40px;
+	 margin: 0 auto;
+	 margin-top:300px;
+	 background:#fff;
+	 font-size:30px;
+	 line-height:40px;
+	 color:#666;
+	 text-align:center;
+}
+#gameOver #resetLeave{
+	 width:200px;
+	 height:40px;
+	 background:#fff;
+	 font-size:30px;
+	 line-height:40px;
+	 color:#666;
+	 text-align:center;
+	 margin: 0 auto;
+	 margin-top:20px;
+	 cursor:pointer;
+}
+#waves{
+	height:20px;
+	padding:20px;
+	font-size:20px;
+	color:blue;
+	position:absolute;
+	top:20px;
+	left:20px;
+	background:#fff;
+}
+#inputTa{
+	 position:absolute;
+	 top:100px;
+	 left:20px;
+	 background:#60C;
+	 color:#999;
+	 font-size:36px;
+}
+#inputbeizhu{
+	 width:100px;
+	 height:20px;
+	 background:#60C;
+	 color:#999;
+	 opacity:0.4;
+	 position:absolute;
+	 display:none;
+	 top:0;
+	 left:0;
+}
+#inputAddM{
+	 position:absolute;
+	 top:240px;
+	 left:20px;
+	 background:#F90;
+	 color:#999;
+	 font-size:36px;
+}
+.background{
+	 width:50px;
+	 height:50px;
+	 position:absolute;	 
+}
+.ta1{
+	 width:50px;
+	 height:50px;
+	 background:url(img/t1.gif) no-repeat;
+	 background-size:contain;
+	 position:absolute;
+	 z-index:1;
+}
+.addta1{
+	 width:50px;
+	 height:50px;
+	 background:url(img/t1.gif) no-repeat;
+	 background-size:contain;
+	 position:absolute; 
+	 z-index:10;
+}
+
+#main .M1{
+	 width:50px;
+	 height:50px;
+	 border-radius:15px;
+	 background:url(img/m1.gif) no-repeat;
+	 background-size:contain;
+	 position:absolute;
+	 z-index:15;
+}
+
+#main .M2{
+	 width:50px;
+	 height:50px;
+	 border-radius:15px;
+	 background:url(img/m2.gif) no-repeat;
+	 background-size:contain;
+	 position:absolute;
+	 z-index:15;
+}
+
+#main .M3{
+	 width:50px;
+	 height:50px;
+	 border-radius:15px;
+	 background:url(img/m3.gif) no-repeat;
+	 background-size:contain;
+	 position:absolute;
+	 z-index:15;
+}
+
+.Mymoney{
+	 width:40px;
+	 height:20px;
+	 background:#69F;
+	 text-indent:5px;
+	 z-index:16;
+	 border:1px #66F dashed;
+	 position:absolute;
+	 top:5%;
+	 left:80%;
+}
+
+#doller{
+	 width:20px;
+	 height:20px;
+	 background:url(img/doller.jpg) no-repeat;
+	 background-size:contain;
+	 z-index:16;
+	 position:absolute;
+	 top:5%;
+	 left:85%;
+}
+
+.bullet{
+	 width:20px;
+	 height:20px;
+	 border-radius:10px;
+	 background:yellow;
+	 position:absolute;
+	 z-index:15;
+}
